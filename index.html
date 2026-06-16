@@ -43,25 +43,25 @@
             font-family: 'Ballet', cursive;
             font-size: clamp(350px, 30vw, 700px);
             color: #25266b;
-            opacity: 0.18;
+            opacity: 0.20;
             white-space: nowrap;
             position: absolute;
         }
 
         .g1 {
-            top: -250px;
-            left: -250px;
+            top: -100px;
+            left: 15px;
             transform: rotate(-3deg);
-            font-size: clamp(420px, 26vw, 620px);
-            opacity: 0.17;
+            font-size: clamp(270px, 26vw, 620px);
+            opacity: 0.14;
         }
 
         .g2 {
             top: 350px;
-            left: 150px;
+            left: 240px;
             transform: rotate(1deg);
             font-size: clamp(340px, 28vw, 650px);
-            opacity: 0.30;
+            opacity: 0.20;
         }
 
         .g3 {
@@ -69,7 +69,7 @@
             left: -200px;
             transform: rotate(-2deg);
             font-size: clamp(300px, 34vw, 780px);
-            opacity: 0.20;
+            opacity: 0.17;
         }
 
         .content {
@@ -176,12 +176,32 @@
         .envelope-front {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to bottom right, transparent calc(50% - 0.7px), rgba(28, 9, 60, 0.26) 50%, transparent calc(50% + 0.7px)),
-                        linear-gradient(to bottom left, transparent calc(50% - 0.7px), rgba(28, 9, 60, 0.26) 50%, transparent calc(50% + 0.7px)),
-                        #efebe5;
+            background: #efebe5;
             clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%);
             z-index: 7;
             pointer-events: none;
+        }
+
+        .envelope::before,
+        .envelope::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 115%;
+            height: 1px;
+            background: rgba(28, 9, 60, 0.10);
+            z-index: 8;
+            pointer-events: none;
+            transform-origin: center;
+        }
+
+        .envelope::before {
+            transform: translate(-50%, -50%) rotate(29.5deg);
+        }
+
+        .envelope::after {
+            transform: translate(-50%, -50%) rotate(-29.5deg);
         }
 
         .envelope-flap {
@@ -318,7 +338,7 @@
         .spark1 { top: 25%; left: 11%; font-size: 1.5rem; animation-duration: 4s; animation-delay: .2s; }
         .spark2 { top: 55%; left: 14%; font-size: 2rem; animation-duration: 6s; animation-delay: 1.8s; }
         .spark3 { top: 70%; left: 8%; font-size: 2rem; animation-duration: 5s; animation-delay: 3.2s; }
-        .spark4 { top: 31%; left: 25%; font-size: .8rem; animation-duration: 7s; animation-delay: .7s; }
+        .spark4 { top: 38%; left: 25%; font-size: .8rem; animation-duration: 7s; animation-delay: .7s; }
         .spark5 { top: 30%; right: 16%; font-size: .9rem; animation-duration: 4.5s; animation-delay: 2.6s; }
         .spark6 { top: 40%; right: 21%; font-size: 1.4rem; animation-duration: 8s; animation-delay: 4.1s; }
         .spark7 { top: 60%; right: 11%; font-size: 1.2rem; animation-duration: 5.5s; animation-delay: 1.3s; }
@@ -507,6 +527,11 @@
                 transform: translate(-50%, -50%);
             }
 
+            .seal:hover {
+                transform: translate(-50%, -50%);
+                box-shadow: none;
+            }
+
             .invitation-card {
                 width: 60vw;
                 max-width: 300px;
@@ -577,7 +602,7 @@
             }
 
             .spark4 {
-                top: 28%;
+                top: 50%;
                 left: 23%;
                 font-size: .55rem;
                 animation-delay: .7s;
@@ -592,7 +617,7 @@
 
             .spark6 {
                 right: 6%;
-                font-size: 1.5rem;
+                font-size: 1rem;
                 animation-delay: 3.1s;
             }
 
@@ -604,7 +629,7 @@
             }
 
             .spark8 {
-                font-size: 1.4rem;
+                font-size: 1rem;
                 animation-delay: .4s;
             }
 
@@ -614,7 +639,7 @@
             }
 
             .spark10 {
-                font-size: 1.6rem;
+                font-size: 1rem;
             }
 
             .spark11 {
@@ -703,8 +728,8 @@
 <body>
 
 <div class="deco-layer">
-    <span class="deco-word giant g1">26 de Junio de 2026</span>
-    <span class="deco-word giant g2">26 de Junio de 2026</span>
+    <span class="deco-word giant g1">Junio</span>
+    <span class="deco-word giant g2">26DE Junio de 2026</span>
     <span class="deco-word giant g3">26 Junio de 2026</span>
 </div>
 
