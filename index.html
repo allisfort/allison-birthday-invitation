@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ballet:opsz@16..72&family=Monsieur+La+Doulaise&family=Mrs+Saint+Delafield&family=WindSong:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            background: #000207;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .deco-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .giant {
+            font-family: 'Ballet', cursive;
+            font-size: clamp(350px, 30vw, 700px);
+            color: #25266b;
+            opacity: 0.18;
+            white-space: nowrap;
+            position: absolute;
+        }
+
+        .g1 {
+            top: -250px;
+            left: -250px;
+            transform: rotate(-3deg);
+            font-size: clamp(420px, 26vw, 620px);
+            opacity: 0.17;
+        }
+
+        .g2 {
+            top: 350px;
+            left: 150px;
+            transform: rotate(1deg);
+            font-size: clamp(340px, 28vw, 650px);
+            opacity: 0.30;
+        }
+
+        .g3 {
+            top: 760px;
+            left: -200px;
+            transform: rotate(-2deg);
+            font-size: clamp(300px, 34vw, 780px);
+            opacity: 0.20;
+        }
+
+        .content {
+            position: relative;
+            z-index: 30;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 200px;
+            padding-left: 24px;
+            padding-right: 24px;
+        }
+
+        .headline {
+            font-family: "Ballet", cursive;
+            font-weight: 400;
+            font-size: clamp(40px, 7vw, 70px);
+            letter-spacing: 0.05em;
+            color: #f4edda;
+            text-align: center;
+            line-height: 1;
+            margin-right: 50px;
+        }
+
+        .headline-two {
+            font-family: "Ballet", cursive;
+            font-weight: 400;
+            font-size: clamp(40px, 7vw, 70px);
+            letter-spacing: 0.05em;
+            color: #f4edda;
+            text-align: center;
+            line-height: 1;
+            margin-left: 50px;
+        }
+
+        .rule {
+            position: relative;
+            width: 44px;
+            height: 1px;
+            background: rgba(243,232,216,.35);
+            margin: 24px auto 0;
+            transition: width 2.2s cubic-bezier(.19,1,.22,1);
+            overflow: visible;
+        }
+
+        body.night-open .rule {
+            width: 350px;
+        }
+
+        .envelope-zone {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-top: 80px;
+            padding-bottom: 80px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 700px;
+            height: 400px;
+            background: #efebe5;
+            border: 1px solid rgba(28, 9, 60, 0.35);
+            border-radius: 2px;
+            box-shadow: 0 18px 40px rgba(28, 9, 60, 0.25);
+            overflow: visible;
+            perspective: 1200px;
+            transform-style: preserve-3d;
+            isolation: isolate;
+        }
+
+        .envelope-inside {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 285px;
+            background: #e4dbcf;
+            clip-path: polygon(0 0, 50% 70%, 100% 0);
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            z-index: 3;
+        }
+
+        .envelope-top-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(28, 9, 60, 0.22);
+            opacity: 0.4;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .envelope.open .envelope-inside {
+            opacity: 1;
+        }
+
+        .envelope-front {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom right, transparent calc(50% - 0.7px), rgba(28, 9, 60, 0.26) 50%, transparent calc(50% + 0.7px)),
+                        linear-gradient(to bottom left, transparent calc(50% - 0.7px), rgba(28, 9, 60, 0.26) 50%, transparent calc(50% + 0.7px)),
+                        #efebe5;
+            clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 100%, 0 100%);
+            z-index: 7;
+            pointer-events: none;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 190px;
+            background: #efebe5;
+            border-radius: 3px;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            transform-origin: top center;
+            transition: transform 1s ease, background 0.4s ease;
+            z-index: 6;
+            box-shadow: 0 2px 4px rgba(28, 9, 60, 0.08);
+            backface-visibility: visible;
+        }
+
+        .seal{
+            position:absolute;
+            top:135px;
+            left:50%;
+            transform:translateX(-50%);
+            width:115px;
+            height:115px;
+            border:none;
+            background:none;
+            cursor:pointer;
+            z-index:10;
+            padding:0;
+        }
+
+        .seal img{
+            width:100%;
+            height:100%;
+            object-fit:contain;
+            filter:
+                    brightness(.75)
+                    saturate(.9)
+                    drop-shadow(0 4px 6px rgba(0,0,0,.25));
+        }
+
+        .seal span{
+            position:absolute;
+            top:50%;
+            left:50%;
+            transform:translate(-50%,-50%);
+            font-family:"Mrs Saint Delafield", cursive;
+            font-size:22px;
+            color: #d8c8b7;
+            opacity: 0.50;
+            text-shadow: 0 1px 2px rgba(0,0,0,.4);
+        }
+
+        .seal:hover {
+            transform: translateX(-50%) scale(1.08);
+            box-shadow: 0 0 18px rgba(243, 232, 216, 0.45);
+        }
+
+        .envelope.open .envelope-flap {
+            background: #e4dbcf;
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .envelope.open .seal {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .content {
+            transition: transform 1s ease;
+        }
+
+        .content.move-up {
+            transform: translateY(-100px);
+        }
+
+        .envelope-zone {
+            transition: transform 3s cubic-bezier(.19, 1, .22, 1);
+        }
+
+        .envelope-zone.move-down {
+            transform: translateY(550px);
+        }
+
+        .invitation-card {
+            position: absolute;
+            left: 50%;
+            top: 40px;
+            width: 480px;
+            max-width: 85vw;
+            z-index: 4;
+            opacity: 0;
+            transform: translateX(-50%) translateY(220px);
+            transition:
+                    transform 0.8s cubic-bezier(.19, 1, .22, 1),
+                    opacity .6s ease;
+        }
+
+        .invitation-card img {
+            width: 100%;
+            display: block;
+            border-radius: 2px;
+            box-shadow: 0 18px 35px rgba(0,0,0,.20);
+        }
+
+        .envelope.open .invitation-card {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-700px) scale(1);
+            transition:
+                    transform 3.8s cubic-bezier(.19, 1, .22, 1),
+                    opacity .6s ease 0.4s;
+        }
+
+        .magic-particles {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .spark {
+            position: absolute;
+            color: rgba(255,255,255,.85);
+            font-size: 1.8rem;
+            opacity: 0;
+            transform: scale(.5);
+            transition:
+                    opacity .8s ease,
+                    transform .8s ease;
+        }
+
+        .spark1 { top: 25%; left: 11%; font-size: 1.5rem; animation-duration: 4s; animation-delay: .2s; }
+        .spark2 { top: 55%; left: 14%; font-size: 2rem; animation-duration: 6s; animation-delay: 1.8s; }
+        .spark3 { top: 70%; left: 8%; font-size: 2rem; animation-duration: 5s; animation-delay: 3.2s; }
+        .spark4 { top: 31%; left: 25%; font-size: .8rem; animation-duration: 7s; animation-delay: .7s; }
+        .spark5 { top: 30%; right: 16%; font-size: .9rem; animation-duration: 4.5s; animation-delay: 2.6s; }
+        .spark6 { top: 40%; right: 21%; font-size: 1.4rem; animation-duration: 8s; animation-delay: 4.1s; }
+        .spark7 { top: 60%; right: 11%; font-size: 1.2rem; animation-duration: 5.5s; animation-delay: 1.3s; }
+        .spark8 {  top: 89%; left: 18%; font-size: 2rem; animation-duration: 6.8s; animation-delay: 3.6s; }
+        .spark9 { top: 56%; right: 13%; font-size: 0.85rem; animation-duration: 7.4s; animation-delay: 3s; }
+        .spark10 { top: 13.5%; left: 12%; font-size: .75rem; animation-duration: 5.8s; animation-delay: 4.8s; }
+        .spark11 { top: 12%; left: 18%; font-size: 3.5rem; animation-duration: 9s; animation-delay: 1.1s; }
+        .spark12 { top: 15%; right: 15%; font-size: 3rem; animation-duration: 8.5s; animation-delay: 3.7s; }
+        .spark13 { bottom: 10%; left: 10%; font-size: 4rem; animation-duration: 10s; animation-delay: 2.9s; }
+        .spark14 { bottom: 8%; right: 12%; font-size: 3.8rem; animation-duration: 9.5s; animation-delay: 5.2s; }
+
+        body.night-open .spark {
+            animation-name: twinkle;
+            animation-timing-function: cubic-bezier(.45, 0, .25, 1);
+            animation-iteration-count: infinite;
+            will-change: transform, opacity;
+        }
+
+        @keyframes twinkle {
+
+            0% {
+                opacity: .10;
+                transform: translateY(0) scale(.88) rotate(0deg);
+            }
+
+            25% {
+                opacity: .32;
+                transform: translateY(-2px) scale(.98) rotate(4deg);
+            }
+
+            50% {
+                opacity: .58;
+                transform: translateY(-4px) scale(1.08) rotate(8deg);
+            }
+
+            75% {
+                opacity: .32;
+                transform: translateY(-2px) scale(.98) rotate(4deg);
+            }
+
+            100% {
+                opacity: .10;
+                transform: translateY(0) scale(.88) rotate(0deg);
+            }
+        }
+
+        .spark:nth-child(2n) {
+            animation-duration: 4.6s;
+        }
+
+        .spark:nth-child(3n) {
+            animation-duration: 5.2s;
+        }
+
+        .invitation-card {
+            cursor: pointer;
+        }
+
+        .envelope.open .invitation-card {
+            animation: cardHint 2.8s ease-in-out 4.5s infinite;
+        }
+
+        @keyframes cardHint {
+
+            0%, 100% {
+                transform: translateX(-50%) translateY(-700px);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-710px);
+            }
+        }
+
+        .invitation-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 2, 7, 0.68);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 999;
+            transition: opacity .4s ease;
+        }
+
+        .invitation-modal img {
+            transform: scale(.75);
+            opacity: 0;
+            transition:
+                    transform 2s cubic-bezier(.19,1,.22,1),
+                    opacity .5s ease;
+            width: min(90vw, 700px);
+            max-height: 92vh;
+        }
+
+        .invitation-modal.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .invitation-modal.open img {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        body.modal-open .content,
+        body.modal-open .envelope-zone,
+        body.modal-open .magic-particles,
+        body.modal-open .deco-layer {
+                                    opacity: 1;
+                                    filter: blur(0.3px);
+                                    transition:
+                                    opacity .6s ease,
+                                    filter .6s ease;
+        }
+
+        body.modal-open .envelope-zone {
+            transform: translateY(550px) scale(.92);
+        }
+
+        @media (max-width: 768px) {
+
+            .content {
+                padding-top: 155px;
+            }
+
+            .content.move-up {
+                transform: translateY(-65px);
+            }
+
+            .headline,
+            .headline-two {
+                font-size: 35px;
+            }
+
+            .rule {
+                position: relative;
+                width: 40px;
+                height: 1px;
+                background: rgba(243,232,216,.35);
+                margin: 24px auto 0;
+                transition: width 5s cubic-bezier(.19,1,.22,1);
+                overflow: visible;
+            }
+
+            body.night-open .rule {
+                width: 210px;
+            }
+
+            .envelope-zone {
+                margin-top: 85px;
+                padding-bottom: 80px;
+                transform: none;
+                transform-origin: top center;
+                transition: transform 3s cubic-bezier(.19, 1, .22, 1);
+            }
+
+            .envelope-zone.move-down {
+                transform: translateY(250px);
+            }
+
+            .envelope {
+                width: 80vw;
+                height: 45vw;
+                max-width: 390px;
+                max-height: 220px;
+            }
+
+            .envelope-flap {
+                width: 80vw;
+                height: 100px;
+                background: #efebe5;
+            }
+
+            .envelope-inside {
+                height: 165px;
+            }
+
+            .seal {
+                width: 74px;
+                height: 74px;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+            }
+
+            .invitation-card {
+                width: 60vw;
+                max-width: 300px;
+                top: 20px;
+            }
+
+            .envelope.open .invitation-card {
+                transform: translateX(-50%) translateY(-375px) scale(1);
+                transition:
+                        transform 3.8s cubic-bezier(.19, 1, .22, 1),
+                        opacity .6s ease 0.6s;
+                animation: cardHintMobile 2.8s ease-in-out 4.5s infinite;
+            }
+
+            @keyframes cardHintMobile {
+
+                0%, 100% {
+                    transform: translateX(-50%) translateY(-375px);
+                }
+
+                50% {
+                    transform: translateX(-50%) translateY(-365px);
+                }
+            }
+
+            .invitation-modal img {
+                width: 82vw;
+                max-height: 78vh;
+            }
+
+            body.modal-open .envelope-zone {
+                transform: translateY(250px) scale(.97);
+            }
+
+            .magic-particles {
+                transform: none;
+            }
+
+            .spark {
+                opacity: 0;
+            }
+
+            body.night-open .spark {
+                animation-name: twinkle;
+                animation-timing-function: cubic-bezier(.45, 0, .25, 1);
+                animation-iteration-count: infinite;
+                animation-fill-mode: backwards;
+            }
+            .spark1 {
+                top: 18%;
+                left: 17%;
+                font-size: 1rem;
+                animation-delay: .2s;
+            }
+
+            .spark2 {
+                top: 47%;
+                left: 6%;
+                font-size: 1.3rem;
+                animation-delay: 2s;
+            }
+
+            .spark3 {
+                top: 73%;
+                left: 13%;
+                font-size: 1.2rem;
+                animation-delay: 2.4s;
+            }
+
+            .spark4 {
+                top: 28%;
+                left: 23%;
+                font-size: .55rem;
+                animation-delay: .7s;
+            }
+
+            .spark5 {
+                top: 20%;
+                right: 13%;
+                font-size: .75rem;
+                animation-delay: 1.8s;
+            }
+
+            .spark6 {
+                right: 6%;
+                font-size: 1.5rem;
+                animation-delay: 3.1s;
+            }
+
+            .spark7 {
+                top: 70%;
+                right: 16%;
+                font-size: .85rem;
+                animation-delay: 2.7s;
+            }
+
+            .spark8 {
+                font-size: 1.4rem;
+                animation-delay: .4s;
+            }
+
+            .spark9 {
+                font-size: 1rem;
+                animation-delay: 1s;
+            }
+
+            .spark10 {
+                font-size: 1.6rem;
+            }
+
+            .spark11 {
+                top: 14%;
+                left: 19%;
+                font-size: 2rem;
+                animation-delay: 2.1s;
+            }
+
+            .spark12 {
+                top: 16%;
+                right: 17%;
+                font-size: 1.6rem;
+                animation-delay: .9s;
+            }
+
+            .spark13 {
+                left: 12%;
+                top: 90%;
+                font-size: 2rem;
+                animation-delay: 3.3s;
+            }
+
+            .spark14 {
+                bottom: 9%;
+                right: 15%;
+                font-size: 1.8rem;
+                animation-delay: 1.6s;
+            }
+
+            .giant{
+                transform: scale(1.23);
+            }
+
+            @keyframes twinkle {
+
+                0% {
+                    opacity: 0;
+                    transform: translateY(0) scale(.88) rotate(0deg);
+                }
+
+                50% {
+                    opacity: 0.6;
+                    transform: translateY(-3px) scale(1.04) rotate(6deg);
+                }
+
+                100% {
+                    opacity: .04;
+                    transform: translateY(0) scale(.88) rotate(0deg);
+                }
+            }
+
+            .invitation-modal img {
+                border-radius: 2px;
+            }
+
+        }
+    </style>
+</head>
+
+<script>
+    function openEnvelope() {
+        const envelope = document.getElementById("envelope");
+
+        envelope.classList.add("open");
+        document.querySelector(".content").classList.add("move-up");
+        document.querySelector(".envelope-zone").classList.add("move-down");
+        document.body.classList.add("night-open");
+    }
+
+    function openInvitationPreview() {
+        const envelope = document.getElementById("envelope");
+
+        if (!envelope.classList.contains("open")) return;
+
+        document.body.classList.add("modal-open");
+        document.getElementById("invitationModal").classList.add("open");
+    }
+
+    function closeInvitationPreview() {
+        document.body.classList.remove("modal-open");
+        document.getElementById("invitationModal").classList.remove("open");
+    }
+</script>
+
+<body>
+
+<div class="deco-layer">
+    <span class="deco-word giant g1">26 de Junio de 2026</span>
+    <span class="deco-word giant g2">26 de Junio de 2026</span>
+    <span class="deco-word giant g3">26 Junio de 2026</span>
+</div>
+
+<div class="content">
+    <h1 class="headline">Has sido</h1>
+    <h1 class="headline-two">Invitado</h1>
+    <div class="rule"></div>
+</div>
+
+<div class="envelope-zone">
+    <div class="envelope" id="envelope">
+
+        <div class="invitation-card" onclick="openInvitationPreview()">
+            <img src="assets/invitacion.png" alt="Invitación cumpleaños Allison Fort">
+        </div>
+
+        <div class="envelope-front"></div>
+        <div class="envelope-inside"></div>
+        <div class="envelope-top-line"></div>
+        <div class="envelope-flap"></div>
+
+        <button class="seal" onclick="openEnvelope()">
+            <img src="https://static.vecteezy.com/system/resources/thumbnails/021/916/528/small/red-wax-seal-isolated-on-a-transparent-background-png.png" alt="Sello">
+            <span></span>
+        </button>
+
+    </div>
+</div>
+
+<div class="invitation-modal" id="invitationModal" onclick="closeInvitationPreview()">
+    <img src="assets/invitacion.png" alt="Invitación cumpleaños Allison Fort ampliada">
+</div>
+
+<div class="magic-particles">
+    <span class="spark spark1">✧</span>
+    <span class="spark spark2">✧</span>
+    <span class="spark spark3">✧</span>
+    <span class="spark spark4">✧</span>
+    <span class="spark spark5">✦</span>
+    <span class="spark spark6">⭑</span>
+    <span class="spark spark7">✧</span>
+    <span class="spark spark8">⭑</span>
+    <span class="spark spark9">✧</span>
+    <span class="spark spark10">⭑</span>
+    <span class="spark spark11">✦</span>
+    <span class="spark spark12">✧</span>
+    <span class="spark spark13">✦</span>
+    <span class="spark spark14">✧</span>
+</div>
+
+</body>
+</html>
